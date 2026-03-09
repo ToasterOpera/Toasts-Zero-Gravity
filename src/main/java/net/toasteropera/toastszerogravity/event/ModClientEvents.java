@@ -31,7 +31,7 @@ public class ModClientEvents {
         boolean up = settings.keyJump.isDown();
         boolean down = settings.keyShift.isDown();
 
-        if (!player.getAbilities().flying && !player.onGround() && !player.isSwimming() && player.getAttributeValue(Attributes.GRAVITY) < 0.0031) {
+        if (!player.getAbilities().flying && !player.onGround() && !player.isSwimming() && player.getAttributeValue(Attributes.GRAVITY) < 0.07) {
             dy *= 1 - DY_DRAG;
             if (up) {
                 dy = Math.min(MAX_DY, dy + UP_THRUST);
