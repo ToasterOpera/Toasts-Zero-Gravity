@@ -8,6 +8,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.toasteropera.toastszerogravity.ToastsZeroGravity;
 
 @EventBusSubscriber(modid = ToastsZeroGravity.MOD_ID)
@@ -38,11 +40,30 @@ public class ModClientEvents {
             }
             if (down) {
                 dy = Math.max(MIN_DY, dy + DOWN_THRUST);
+//                ToastsZeroGravity.LOGGER.info(String.valueOf(player.onGround()));
             }
+//            double oldy = player.getY();
             player.move(MoverType.SELF, new Vec3(0, dy, 0));
+//            if (dy < 0 && player.getY() == oldy) {
+////                ToastsZeroGravity.LOGGER.info("detected on ground");
+//
+//                player.setOnGround(true);
+//                //step on the block you stepped on. hopefully.
+//                player.level().getBlockState(player.getOnPos()).getBlock().stepOn(player.level(), player.getOnPos(), player.level().getBlockState(player.getOnPos()), player);
+//            }
+//            ToastsZeroGravity.LOGGER.info("On Ground After Calcs: " + player.onGround());
+
         }
         else {
             dy = 0;
+        }
+    }
+
+    @SubscribeEvent
+    public static void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
+        //It just works
+        if (!event.getEntity().onGround()) {
+            event.setNewSpeed(event.getNewSpeed() * 5);
         }
     }
 }
